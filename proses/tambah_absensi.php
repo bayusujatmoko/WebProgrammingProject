@@ -6,31 +6,34 @@
 	
 	date_default_timezone_set("Asia/Jakarta");
 	$tanggal = date("Y-m-d");
-	$jam = date("G:i:s");
+	$jam = date("H:i:s");
 
-	$sql=mysql_query("SELECT * FROM absensi WHERE tanggal='$tanggal' 
-	and nip='$nip'");
+	$sql=mysql_query("SELECT * FROM absensi WHERE tanggal='$tanggal' and nip='$nip'");
 
 	if(isset($_POST['hadir'])){
-		if(mysql_num_rows($sql)>0){
+		$max=date('08:00:00');
+		$max1=date('08:30:00');
+		
+		if(mysql_num_rows($sql) > 0){
 			echo "<script>alert('Anda telah melakukan presensi!!'); window.location = '../tampil_absensi_pegawai.php'</script>";
 		}else{
-			$max=date('08:00:00');
-			if($jam < $max){
+			if($jam >= $max AND $jam <= $max1){
 				$q = mysql_query("INSERT INTO absensi (id,nip,nama,jam,tanggal,status,keterangan) VALUES ('','$nip','$nama','$jam','$tanggal','Hadir','Tepat Waktu')");
-			}else{
+			}else if($jam > $max1){
 				$q = mysql_query("INSERT INTO absensi (id,nip,nama,jam,tanggal,status,keterangan) VALUES ('','$nip','$nama','$jam','$tanggal','Hadir','Terlambat')");
+			}else{
+				echo "<script>alert('Belum waktunya presensi'); window.location = '../tampil_absensi_pegawai.php'</script>";
 			}
 		}
 	}else if(isset($_POST['izin'])){
-		if(mysql_num_rows($sql)>0){
+		if(mysql_num_rows($sql) > 0){
 			echo "<script>alert('Anda telah melakukan presensi!!'); window.location = '../tampil_absensi_pegawai.php'</script>";
 		}else{
 			$q = mysql_query("INSERT INTO absensi (id,nip,nama,jam,tanggal,status,keterangan) VALUES ('','$nip','$nama','$jam','$tanggal','Izin','-------')");	
 		}
 		
 	}else{
-		if(mysql_num_rows($sql)>0){
+		if(mysql_num_rows($sql) > 0){
 			echo "<script>alert('Anda telah melakukan presensi!!'); window.location = '../tampil_absensi_pegawai.php'</script>";
 		}else{
 			$q = mysql_query("INSERT INTO absensi (id,nip,nama,jam,tanggal,status,keterangan) VALUES ('','$nip','$nama','$jam','$tanggal','Sakit','-------')");

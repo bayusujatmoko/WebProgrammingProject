@@ -87,7 +87,7 @@
 							while($result = mysql_fetch_array($query))
 							{ ?>
 								<tr>
-									<td><?=$i; ?></td>
+									<td><?= $i;?></td>
 									<td><?=	$result['id']?></td>
 									<td><?=	$result['nip']?></td>
 									<td><?=	$result['nama']?></td>
@@ -96,7 +96,7 @@
 									<td><?=	$result['status']?></td>
 									<td><?=	$result['keterangan']?></td>
 									<td>
-									<a id="btn-submit" href="proses/hapus_absensi.php?nip=<?php echo $result['nip']; ?> " onclick="return klikHapus();">Hapus</a>
+									<a id="btn-submit" href="proses/hapus_absensi.php?nip=<?php echo $result['nip'];?>" onclick="return klikHapus();">Hapus</a>
 									</td>
 									</td>
 								</tr>
